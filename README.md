@@ -1,69 +1,108 @@
-# GAN for Raw Speech Generation
+# 🎙️ GAN-Based Speech Generation
 
-This project implements a Generative Adversarial Network (GAN) in TensorFlow for generating raw audio waveforms trained on the LibriSpeech dataset.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)
+![Librosa](https://img.shields.io/badge/Librosa-Audio%20Processing-green)
+![GAN](https://img.shields.io/badge/Model-GAN-red)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)
 
-## 📦 Features
+---
 
-- **Generator and Discriminator**: Basic MLP-based GAN architecture for speech generation.
-- **Preprocessing**: Loads and normalizes raw `.flac` speech audio to fixed-length waveforms.
-- **Training**: Full training loop with discriminator and generator losses, real/fake labeling, and periodic generation of output samples.
-- **Visualization**: Plots generated audio waveform.
-- **Export**: Saves generated waveform as a `.wav` file.
+## 🎯 Overview
 
-## 🗃 Dataset
+This project implements a Generative Adversarial Network (GAN) to synthesize human-like speech waveforms. It includes:
 
-The model uses the [LibriSpeech Train-Clean-100 subset](http://www.openslr.org/resources/12/train-clean-100.tar.gz). It's automatically downloaded and extracted.
+- ✅ A **Generator** model that produces 1-second speech samples.
+- ✅ A **Discriminator** that classifies real vs. generated audio.
+- ✅ **Preprocessing pipeline** for raw `.flac` audio files.
+- ✅ Training on the **LibriSpeech** dataset.
 
-## 🧪 Usage
+---
 
-### Installation
+## 🔧 Setup Instructions
+
 ```bash
 pip install tensorflow librosa soundfile wget
 ```
 
-### Download and Extract Dataset
+Download and extract LibriSpeech:
+
 ```bash
 wget http://www.openslr.org/resources/12/train-clean-100.tar.gz
 tar -xvzf train-clean-100.tar.gz
 ```
 
-### Training
+---
+
+## 🧠 Architecture
+
+### Generator
+- Dense layers with ReLU activations
+- Output layer with `tanh` to generate audio in [-1, 1]
+
+### Discriminator
+- Fully connected binary classifier
+
+### GAN
+- Combines Generator and Discriminator
+- Trained using adversarial loss
+
+---
+
+## 🌀 Training
+
 ```python
 train_gan(generator, discriminator, gan, epochs=5000, batch_size=32, audio_files=audio_files)
 ```
 
-### Saving Generated Samples
-```python
-save_audio_sample(generator, noise_dim=100, epoch=100)
-```
+At every 100 epochs, a `.wav` file is generated and plotted.
 
-### Download Output (Google Colab)
+---
+
+## 📈 Sample Output
+
+![Generated Audio](generated_plot.png)
+
+*Above: waveform of synthesized speech at epoch 100*
+
+---
+
+## 🔊 Listen to Generated Audio
+
+After training:
 ```python
-from google.colab import files
 files.download('generated_speech_100.wav')
 ```
 
-## 🧠 Model Summary
+---
 
-- Generator: 3 fully connected layers (Dense) with `tanh` output activation.
-- Discriminator: Binary classifier with sigmoid activation to distinguish real vs. generated waveforms.
-- Input Dimension: 100-D noise vector.
-- Output: 1D raw audio signal (16k samples ~1 second at 16kHz).
+## 📁 Project Structure
 
-## 🎯 Applications
+```
+├── generator.py
+├── discriminator.py
+├── train.py
+├── data/
+│   └── LibriSpeech/
+├── utils.py
+└── README.md
+```
 
-- Research in low-resource speech generation
-- Proof-of-concept for GAN-based speech synthesis
-- Educational project for audio ML
+---
 
-## 🚧 Notes
+## 📜 License
 
-- Ensure enough disk space for LibriSpeech (approx. 6GB for full subset).
-- Output quality improves over training epochs, but model is intentionally minimal.
+This project is licensed under the [MIT License](LICENSE).
 
-## 📁 Output Example
+---
 
-Generated speech samples are saved as `generated_speech_<epoch>.wav` and plotted using `matplotlib`.
+## 🙋‍♂️ Acknowledgments
+
+- LibriSpeech Dataset
+- TensorFlow + Keras
+- GAN inspiration from DeepLearning.ai
+
 
 
 
