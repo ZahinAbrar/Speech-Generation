@@ -111,8 +111,3 @@ pip install -r requirements.txt
 - Support real-time inference using TensorFlow Lite or ONNX
 
 ---
-
-## 🔗 Citation / Credit
-
-Built by [Your Name] as a research prototype for **privacy-preserving speech systems**.  
-Feel free to fork and modify for academic or production use. Star ⭐ the repo if you find it useful!
