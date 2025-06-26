@@ -106,115 +106,89 @@ This project is licensed under the [MIT License](LICENSE).
 
 
 
-# 🎤 Transformer-based Speech Anonymization
 
-This project implements a **Transformer-based neural architecture** for **speech anonymization**, where the model transforms an input Mel-Spectrogram into a modified version that conceals speaker identity while preserving linguistic content.
+# 🔐 Transformer-Based Speech Anonymization
 
-> ⚡ Goal: Protect speaker privacy while retaining the semantic integrity of speech.
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![TensorFlow](https://img.shields.io/badge/Framework-TensorFlow-orange)](https://www.tensorflow.org/)
+[![Librosa](https://img.shields.io/badge/Audio-librosa-blue)](https://librosa.org/)
+[![Model](https://img.shields.io/badge/Model-Transformer-informational)](https://arxiv.org/abs/1706.03762)
+
+A TensorFlow implementation of a **Transformer-based model for speech anonymization**, which transforms Mel-spectrograms to anonymized spectrograms while preserving content. Ideal for privacy-preserving audio processing in voice assistants, healthcare, or public dataset anonymization.
 
 ---
 
-## 🚀 Key Features
+## 📌 Features
 
-- ✅ **Mel-Spectrogram Preprocessing** with `librosa`
-- ✅ **Custom Positional Encoding Layer** for time-frequency data
-- ✅ **Multi-Head Attention Blocks** inspired by Transformer architecture
-- ✅ **Custom Loss Function** balancing content preservation and anonymization
-- ✅ **Modular and Scalable Design** for easy experimentation and extension
+- 🎧 Converts raw audio into Mel-spectrograms using `librosa`
+- 🧠 Uses Positional Encoding and Multi-Head Attention layers
+- 🔁 Residual connections and Layer Normalization for deep modeling
+- 🛡️ Custom loss to balance anonymization vs. content preservation
+- 🧪 Ready for experimentation with dummy or real datasets
 
 ---
 
 ## 📁 Project Structure
 
+- `preprocess_audio`: Converts `.wav` to Mel-spectrogram
+- `PositionalEncoding`: Adds temporal context
+- `build_transformer_model`: Constructs the full model
+- `loss_fn`: Custom loss for privacy + accuracy
+- `train`: Example training setup with dummy data
+
+---
+
+## 🚀 Quick Start
+
+1. **Install dependencies**
+
 ```bash
-.
-├── transformer_anonymizer.py     # Main model and training script
-├── utils.py                      # Preprocessing and utility functions
-├── README.md                     # This file
-└── requirements.txt              # Python dependencies
+pip install tensorflow librosa numpy
+```
+
+2. **Train with Dummy Data**
+
+```python
+# From Python
+transformer_model.fit(dummy_data, dummy_labels, epochs=10)
+```
+
+3. **Inference**
+
+```python
+anonymized = transformer_model.predict(mel_spectrogram_input)
 ```
 
 ---
 
-## 🧠 Model Architecture
+## 📊 Model Architecture
 
-This project adapts the Transformer encoder design for 2D Mel-Spectrogram inputs:
-
-- **Input:** `(T, M)` Mel-Spectrogram (Time × Mel-bins)
-- **Layers:**
+- Input: Mel-spectrogram [128, 128]
+- Layers:
   - Positional Encoding
-  - Stack of N Transformer encoder blocks:
-    - Layer Normalization
-    - Multi-Head Self-Attention
-    - Feed-Forward Network
-    - Residual Connections
-- **Output:** Transformed Mel-Spectrogram with anonymized speaker characteristics
+  - 4 × [Multi-Head Attention + Feedforward + LayerNorm + Residual]
+  - Final Dense Layer
+- Output: Anonymized Mel-spectrogram
 
 ---
 
-## 🧪 Custom Loss Function
+## 🤖 Use Cases
 
-```python
-total_loss = α * ContentLoss + (1 - α) * AnonymizationLoss
-```
-
-- **Content Loss**: Encourages preserving the original content
-- **Anonymization Loss**: Encourages dissimilarity in speaker identity features
-
-This design supports tunable privacy-preservation tradeoffs via the `α` hyperparameter.
+- Privacy-preserving speech analytics
+- De-identifying clinical recordings
+- Secure voice assistant training
 
 ---
 
-## 📊 Example Usage
+## 📄 License
 
-```python
-# Load and convert audio to Mel-spectrogram
-mel = preprocess_audio("sample.wav")
-
-# Predict anonymized version
-output = transformer_model.predict(mel[np.newaxis, ...])
-```
+MIT © 2025
 
 ---
 
-## 🛠️ Training
+## ✨ Acknowledgements
 
-To train on dummy data (replace with real samples):
+Inspired by the original Transformer paper: [Attention Is All You Need](https://arxiv.org/abs/1706.03762)
 
-```python
-transformer_model.fit(dummy_data, dummy_labels, batch_size=16, epochs=10)
-```
+Built with ❤️ using TensorFlow and Librosa.
 
----
-
-## 🧰 Dependencies
-
-Install required packages with:
-
-```bash
-pip install -r requirements.txt
-```
-
-**Core libraries:**
-- TensorFlow
-- librosa
-- NumPy
-
----
-
-## 🎯 Applications
-
-- Privacy-preserving voice assistants
-- Anonymous call centers
-- Speech data sharing with built-in de-identification
-- Preprocessing for training fairer speech recognition models
-
----
-
-## 📌 Next Steps
-
-- Integrate speaker verification metrics to quantify anonymization
-- Add evaluation with WER (Word Error Rate) to measure content preservation
-- Support real-time inference using TensorFlow Lite or ONNX
-
----
